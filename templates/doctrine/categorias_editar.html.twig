@@ -1,0 +1,52 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Doctrine{% endblock %}
+
+{% block body %}
+    {#Con esto hago unos pequeños links debajo del navbar de la pagina para poder acceder a cualquier parte del menu #}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home_inicio') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_inicio') }}">Doctrine ORM</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_categorias') }}">Categorias</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
+        </ol>
+    </nav>
+
+    <h1>Editar</h1>
+
+    <div class="row">
+        {# Como en este caso estoy pasando el ID de la categoria para poder verlo y editarlo en caso de ser necesario#}
+        <form action="{{url('doctrine_categorias_editar', {id:entity.id})}}" method="POST">
+        {% if errors %}
+            <div class="alert alert-danger alert-dismissible fade show">   
+                <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        {% endif%}
+
+
+        {% for mensaje in app.flashes('mensaje') %}
+            <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+                {{mensaje}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        <div class="form-group">
+            <label for="categoria_form_nombre">Nombre</label>
+                {{form_widget(form.nombre, {"required":false, "attr":{"placeholder": "Nombre"}})}}
+        </div>
+        <hr />
+        <input type="hidden" name="token" value="{{csrf_token('generico') }}" />
+        <input type="submit" value="Enviar" class="btn btn-primary" />
+
+        </form>
+    </div>
+
+{% endblock %}

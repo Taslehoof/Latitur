@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CategoriaRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: CategoriaRepository::class)]
+class Categoria
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    //Con esto estamos haciendo que nos haga las dos cosas dentro de la entidad, La BDD y el ORM
+    #[ORM\Column(length: 100), Assert\NotBlank(message:'El nombre es obligatorio')]
+    private ?string $nombre = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $slug= null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): static
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+}

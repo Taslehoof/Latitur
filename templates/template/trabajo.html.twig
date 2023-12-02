@@ -1,0 +1,50 @@
+{% extends 'frontend.html.twig' %}
+{%block title %} Template trabajo{%endblock%}
+
+{%block body %}
+
+<h1>hola {{name}} {{lastName}}</h1>
+
+{# esto me sirve si no quiero mostrar nada en pantalla #}
+{% set edad = 38 %}
+<p> Mi edad es {{edad}} </p>
+
+{# De esta manera puedo hacer una validacion de una variable que declare anteriormente #}
+
+<p>
+    {% if edad >= 18%}
+        es mayo de edad
+    {% else %}
+        es menor de edad
+    {% endif%}
+</p>
+
+<p>
+<h3>Paises</h3>
+<ul>
+    {# De esta manera estoy iterando el Array que declare desde la plantilla PHP#}
+    {% for pais in paises%}
+        <li>Nombre: {{pais.nombre}} | ID: {{pais.id}}</li>
+    {%endfor%}
+</ul>
+</p>
+
+{# De esta manera estoy importando dentro de esta plantilla los datos de otro archivo #}
+<p>{{include('include.html')}}</p>
+
+<p>{% set html = '<b>Hola soy un texto en negrita</b>' %}
+{{html|raw}}
+</p>
+
+{# Variables gobales #}
+<p>
+Variable Custom: {{tamila}}
+</p>
+
+<p>
+{#Funcion dentro del motor de plantillas#}
+{{dump(paises)}}
+</p>
+{%endblock%}
+
+

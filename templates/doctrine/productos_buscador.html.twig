@@ -1,0 +1,84 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Doctrine{% endblock %}
+
+{% block body %}
+    {#Con esto hago unos pequeños links debajo del navbar de la pagina para poder acceder a cualquier parte del menu #}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home_inicio') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_inicio') }}">Doctrine ORM</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_productos') }}">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Resultado para el termino <strong>{{b}}</strong></li>
+        </ol>
+    </nav>
+
+    <h1>Productos</h1>
+    <h4>Resultado para el termino <strong>{{b}}</strong></h4>
+        {% for message in app.flashes('mensaje') %}
+            <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    
+    {# Con esto lo que hago es hacer el tipico buscador de objetos especificos dentro del listado#}
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            <form name="form_search" action="{{path('doctrine_productos_buscador')}}" method="GET">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar....." name="b" id="b" value="{{b}}"/>
+                    <span class="input-group-text" id="basic-addon2">
+                        <a href="javascript:void(0);" class="btn " onclick="buscador();"><i class="fas fa-search"></i></a>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <p class="d-flex justify-content-end">
+        <a href="{{path('doctrine_categorias_add')}}" class="btn btn-success"><i class="fas fa-check"></i>Crear</a>
+    </p>
+
+    {# Aca estoy armando la tabla para poder mostrar los datos de la BDD#}
+    <div class="table-responsive">
+        <table class="table table-bordered table-sttriped table-hover">
+            <thead>
+                <tr>
+                {# Con esto estoy armando los encabezados de la tabla que estoy mostrando como lista#}
+                <th>ID</th>
+                <th>Categoria</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Descripcion</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in datos %}
+                    <tr>
+                        <td>{{dato.id}}</td>
+                        <td>
+                            {# Esto lo tengo que traer de la Producto pero desde el metodo#}
+                            <a href="{{ path('doctrine_productos_categoria', {categoria_id:dato.getCategoria.id})}}" title="Productos de la categoria {{dato.getCategoria.nombre}}">{{dato.getCategoria.nombre}}</a>
+                        </td>
+                        <td>{{dato.nombre}}</td>
+                        <td>${{dato.precio|number_format(0,'','.')}}</td>
+                        <td>{{dato.stock}}</td>
+                        <td>{{dato.descripcion|slice(0,100)}}.....</td>
+                        <td style="text-align:center;">
+                            <a href=""><i class="fas fa-camera"></i></a>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="{{path('doctrine_categorias_editar',{id: dato.id})}}"><i class="fas fa-edit"></i></a>
+                            <a href="javascript:void(0);" onclick="confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_categorias_eliminar',{id:dato.id})}}')"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

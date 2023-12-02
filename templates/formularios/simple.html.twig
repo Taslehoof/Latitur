@@ -1,0 +1,47 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Formularios{% endblock %}
+
+{% block body %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('formularios_inicio')}}">Formularios</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Formularios Simple</li>
+    </ol>
+</nav>
+{# Aqui estoy haciendo los parametros del formulario para poder tenerlos uno por uno #}
+<h1>Formulario Simple</h1>
+   {% for mensaje in app.flashes('mensaje') %}
+        <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+        {{mensaje}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %} 
+
+{# Con esto estoy generando de manera automatica lo que ponga de formulario y lo renderiza solo 
+ {{form(form)}} #}
+
+{# Con esto lo estoy rendeerizando 1a1 con cada una de sus particularidades a cada parametro del formulario #}
+<form method="POST" action=""{{url('formularios_simple')}}>
+    <div class="form-group">
+        <label for="form_nombre">Nombre:</label>
+        {{form_widget(form.nombre,{"required":false,"attr":{"placeholder":"Nombre"}})}}
+    </div>
+    <div class="form-group">
+        <label for="form_correo">E-Mail:</label>
+        {{form_widget(form.correo,{"required":false,"attr":{"placeholder":"E-Mail"}})}}
+    </div>
+    <div class="form-group">
+        <label for="form_telefono">Telefono:</label>
+        {{form_widget(form.telefono,{"required":false,"attr":{"placeholder":"Telefono"}})}}
+    </div>
+    <hr />
+    {# Con esta linea estoy generando un token de seguridad para poder enviar los datos demanera segura #}
+    <input type="hidden" name="token" value="{{csrf_token('generico')}}" />
+    <button type="submit" title="Enviar" class="btn btn-primary"><i class="fas fa-check"></i> Enviar</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Formularios{% endblock %}
+
+{% block body %}
+<h1>Formularios</h1>
+<ul>
+    <li>
+        <!-- con esto no solo hago un link sino que estoy tambien llamado a los metodos del controlador y template -->
+        <a href="{{path('formularios_simple')}}">Formulario Simple</a>
+    </li>
+    <li>
+        <a href="{{path('formularios_entity')}}">Formulario Entity</a>
+    </li>
+    <li>
+        <a href="{{path('formularios_type_form')}}">Formulario Type Form</a>
+    </li>
+    <li>
+        <a href="{{path('formularios_validacion')}}">Formulario Validacion</a>
+    </li>
+    <li>
+        <a href="{{path('formularios_upload')}}">Formulario Upload</a>
+    </li>
+</ul>
+{% endblock %}

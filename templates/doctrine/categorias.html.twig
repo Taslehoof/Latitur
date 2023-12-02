@@ -1,0 +1,45 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Doctrine{% endblock %}
+
+{% block body %}
+    {#Con esto hago unos pequeños links debajo del navbar de la pagina para poder acceder a cualquier parte del menu #}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home_inicio') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_inicio') }}">Doctrine ORM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categorias</li>
+        </ol>
+    </nav>
+
+    <h1>Categorias</h1>
+    <p class="d-flex justify-content-end">
+        <a href="{{path('doctrine_categorias_add')}}" class="btn btn-success"><i class="fas fa-check"></i>Crear</a>
+    </p>
+
+
+    {# Aca estoy armando la tabla para poder mostrar los datos de la BDD#}
+    <div class="table-responsive">
+        <table class="table table-bordered table-sttriped table-hover">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in datos %}
+                    <tr>
+                        <td>{{dato.id}}</td>
+                        <td>{{dato.nombre}}</td>
+                        <td style="text-align:center;">
+                            <a href="{{path('doctrine_categorias_editar',{id: dato.id})}}"><i class="fas fa-edit"></i></a>
+                            <a href="javascript:void(0);" onclick="confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_categorias_eliminar',{id:dato.id})}}')"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

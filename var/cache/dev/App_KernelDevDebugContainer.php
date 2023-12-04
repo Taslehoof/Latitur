@@ -16,6 +16,6 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerDfxRVXI\App_KernelDevDebugContainer([
     'container.build_hash' => 'DfxRVXI',
-    'container.build_id' => 'a37888ab',
-    'container.build_time' => 1701557031,
+    'container.build_id' => 'b1c76c58',
+    'container.build_time' => 1701648600,
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerDfxRVXI');

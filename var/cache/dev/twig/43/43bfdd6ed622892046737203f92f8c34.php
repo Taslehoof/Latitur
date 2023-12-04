@@ -87,30 +87,26 @@ class __TwigTemplate_ef7c8a1fe2920338c72c26ec7ee56153 extends Template
         // line 6
         echo "    <h1>Doctrine ORM</h1>
     <ul>    
-        <li>
-            <a href=\"";
-        // line 9
+        <li><a href=\"";
+        // line 8
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_categorias");
-        echo "\">Categorias</a>
-        </li>
-        <li>
-            <a href=\"";
-        // line 12
+        echo "\">Categorias</a></li>
+        <li><a href=\"";
+        // line 9
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos");
-        echo "\">Productos</a>
-        </li>
-        <li>
-            <a href=\"";
-        // line 15
+        echo "\">Productos</a></li>
+        <li><a href=\"";
+        // line 10
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_paginacion");
-        echo "\">Productosp Paginacion</a>
-        </li>
-        <li>
-            <a href=\"";
-        // line 18
+        echo "\">Productos Paginacion</a></li>
+        <li><a href=\"";
+        // line 11
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_where_in");
-        echo "\">Productos Where In</a>
-        </li>
+        echo "\">Productos Where In</a></li>
+        <li><a href=\"";
+        // line 12
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_fecha");
+        echo "\">Productos por Fecha</a></li>
     </ul>
 ";
         
@@ -133,7 +129,7 @@ class __TwigTemplate_ef7c8a1fe2920338c72c26ec7ee56153 extends Template
 
     public function getDebugInfo()
     {
-        return array (  111 => 18,  105 => 15,  99 => 12,  93 => 9,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  108 => 12,  104 => 11,  100 => 10,  96 => 9,  92 => 8,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -145,18 +141,11 @@ class __TwigTemplate_ef7c8a1fe2920338c72c26ec7ee56153 extends Template
 {% block body %}
     <h1>Doctrine ORM</h1>
     <ul>    
-        <li>
-            <a href=\"{{path('doctrine_categorias')}}\">Categorias</a>
-        </li>
-        <li>
-            <a href=\"{{path('doctrine_productos')}}\">Productos</a>
-        </li>
-        <li>
-            <a href=\"{{path('doctrine_productos_paginacion')}}\">Productosp Paginacion</a>
-        </li>
-        <li>
-            <a href=\"{{path('doctrine_productos_where_in')}}\">Productos Where In</a>
-        </li>
+        <li><a href=\"{{path('doctrine_categorias')}}\">Categorias</a></li>
+        <li><a href=\"{{path('doctrine_productos')}}\">Productos</a></li>
+        <li><a href=\"{{path('doctrine_productos_paginacion')}}\">Productos Paginacion</a></li>
+        <li><a href=\"{{path('doctrine_productos_where_in')}}\">Productos Where In</a></li>
+        <li><a href=\"{{path('doctrine_productos_fecha')}}\">Productos por Fecha</a></li>
     </ul>
 {% endblock %}
 ", "doctrine/index.html.twig", "/var/www/html/latitur/templates/doctrine/index.html.twig");

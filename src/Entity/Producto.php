@@ -33,6 +33,9 @@ class Producto
     #[ORM\JoinColumn(nullable: false)]
     private ?Categoria $categoria = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fecha = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,18 @@ class Producto
     public function setCategoria(?Categoria $categoria): static
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(?\DateTimeInterface $fecha): static
+    {
+        $this->fecha = $fecha;
 
         return $this;
     }

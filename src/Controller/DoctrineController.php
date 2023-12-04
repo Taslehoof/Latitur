@@ -184,7 +184,8 @@ class DoctrineController extends AbstractController
         return $this->render('doctrine/productos_buscador.html.twig', compact('datos','b'));
     }
 
-    #[Route('/doctrine/productos/where-in', name: 'doctrine_productos_where_in')]
+    //Con esta funcion lo que hago es que me muestre los productos que estan en categorias en especifico
+    #[Route('/doctrine/productos/where_in', name: 'doctrine_productos_where_in')]
     public function productos_where_in(): Response {
 
         //select * from productos where categoria_id in (1,2) 
@@ -196,5 +197,22 @@ class DoctrineController extends AbstractController
                             ->getResult();
 
         return $this->render('doctrine/productos_where_in.html.twig', compact('datos'));
+    }
+    
+    //Aca buscamos los Productos que estan en fechas que le seteo en el codigo para poder buscarlas
+    #[Route('/doctrine/productos/fecha', name: 'doctrine_productos_fecha')]
+    public function productos_fecha(): Response {
+
+        //select * from productos where fecha between fecha1 and fecha2 
+        $datos = $this->em->getRepository(Producto::class)
+                            ->createQueryBuilder('p')
+                            ->andWhere('p.fecha BETWEEN :fecha1 AND :fecha2')
+                            ->setParameter('fecha1', '2023-03-17')
+                            //aca le estoy diciendo que me traiga todos los productos entre la fecha 1 y la actual
+                            ->setParameter('fecha2', date('Y-m-d'))
+                            ->getQuery()
+                            ->getResult();
+
+        return $this->render('doctrine/productos_fecha.html.twig', compact('datos'));
     }
 }

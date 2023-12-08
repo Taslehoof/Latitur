@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 class Producto
@@ -14,23 +15,23 @@ class Producto
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100), Assert\NotBlank(message:'El campo Nombre es obligatorio')]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 100)]
     private ?string $slug = null;
 
-    #[ORM\Column]
+    #[ORM\Column, Assert\NotBlank(message:'El campo Precio es obligatorio')]
     private ?int $precio = null;
 
-    #[ORM\Column]
+    #[ORM\Column, Assert\NotBlank(message:'El campo Stock es obligatorio')]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT), Assert\NotBlank(message:'El campo Descripcion es obligatorio')]
     private ?string $descripcion = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false), Assert\NotBlank(message:'Debe seleccionar una categoria')]
     private ?Categoria $categoria = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

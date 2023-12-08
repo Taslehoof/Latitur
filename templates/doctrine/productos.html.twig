@@ -36,7 +36,7 @@
     </div>
 
     <p class="d-flex justify-content-end">
-        <a href="{{path('doctrine_categorias_add')}}" class="btn btn-success"><i class="fas fa-check"></i>Crear</a>
+        <a href="{{path('doctrine_productos_add')}}" class="btn btn-success"><i class="fas fa-check"></i>Crear</a>
     </p>
 
     {# Aca estoy armando la tabla para poder mostrar los datos de la BDD#}
@@ -68,11 +68,13 @@
                         <td>{{dato.stock}}</td>
                         <td>{{dato.descripcion|slice(0,100)}}.....</td>
                         <td style="text-align:center;">
-                            <a href=""><i class="fas fa-camera"></i></a>
+                            <a href="{{path('doctrine_productos_fotos',{id:dato.id})}}"><i class="fas fa-camera"></i></a>
                         </td>
                         <td style="text-align:center;">
-                            <a href="{{path('doctrine_categorias_editar',{id: dato.id})}}"><i class="fas fa-edit"></i></a>
-                            <a href="javascript:void(0);" onclick="confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_categorias_eliminar',{id:dato.id})}}')"><i class="fas fa-trash-alt"></i></a>
+                            {# Esta linea la comente para poder hacer uso de la misma plantilla para la edicion de los productos#}
+                            {#<a href="{{path('doctrine_categorias_editar',{id: dato.id})}}"><i class="fas fa-edit"></i></a>#}
+                            <a href="{{path('doctrine_productos_editar',{id: dato.id})}}"><i class="fas fa-edit"></i></a>
+                            <a href="javascript:void(0);" onclick="confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_productos_eliminar',{id:dato.id})}}')"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 {% endfor%}

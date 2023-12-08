@@ -1,0 +1,66 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Doctrine{% endblock %}
+
+{% block body %}
+    {#Con esto hago unos pequeños links debajo del navbar de la pagina para poder acceder a cualquier parte del menu #}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home_inicio') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_productos') }}">Productos</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_categorias') }}">Categorias</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear</li>
+        </ol>
+    </nav>
+
+    <h1>Crear</h1>
+
+    <div class="row">
+        <form action="{{url('doctrine_productos_add')}}" method="POST">
+        {% if errors %}
+            <div class="alert alert-danger alert-dismissible fade show">   
+                <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        {% endif%}
+
+
+        {% for mensaje in app.flashes('mensaje') %}
+            <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+                {{mensaje}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+    <div class="form-group">   
+      <label for="producto_form_categoria_id">Categoría</label>
+      {{ form_widget(form.categoria, {"required": false} ) }}
+    <div>         
+    <div class="form-group">   
+      <label for="producto_form_nombre">Nombre</label>
+      {{ form_widget(form.nombre, {"required": false, "attr": {"placeholder": "Nombre"}}) }}
+    <div>
+    <div class="form-group">   
+      <label for="producto_form_form_precio">Precio</label>
+      {{ form_widget(form.precio, {"required": false, "attr": {"placeholder": "Precio" }}) }}
+    <div>
+    <div class="form-group">   
+      <label for="producto_form_form_stock">Stock</label>
+      {{ form_widget(form.stock, {"required": false, "attr": {"placeholder": "Stock" }}) }}
+    <div>
+    <div class="form-group">   
+      <label for="producto_form_form_descripcion">Descripción</label>
+      {{ form_widget(form.descripcion, {"required": false, "attr": {"placeholder": "Descripción" }}) }}
+    <div>
+    <hr/>    
+    <input type="hidden" name="token" value="{{ csrf_token('generico') }}"/>
+    <input type="submit" value="Enviar" class="btn btn-primary" />
+    </form>
+
+    </div>
+{% endblock %}

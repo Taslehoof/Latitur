@@ -22,6 +22,7 @@ return [
         '/doctrine/productos/buscador' => [[['_route' => 'doctrine_productos_buscador', '_controller' => 'App\\Controller\\DoctrineController::productos_buscador'], null, null, null, false, false, null]],
         '/doctrine/productos/where_in' => [[['_route' => 'doctrine_productos_where_in', '_controller' => 'App\\Controller\\DoctrineController::productos_where_in'], null, null, null, false, false, null]],
         '/doctrine/productos/fecha' => [[['_route' => 'doctrine_productos_fecha', '_controller' => 'App\\Controller\\DoctrineController::productos_fecha'], null, null, null, false, false, null]],
+        '/doctrine/productos/add' => [[['_route' => 'doctrine_productos_add', '_controller' => 'App\\Controller\\DoctrineController::productos_add'], null, null, null, false, false, null]],
         '/formularios' => [[['_route' => 'formularios_inicio', '_controller' => 'App\\Controller\\FormulariosController::index'], null, null, null, false, false, null]],
         '/formularios/simple' => [[['_route' => 'formularios_simple', '_controller' => 'App\\Controller\\FormulariosController::simple'], null, null, null, false, false, null]],
         '/formularios/entity' => [[['_route' => 'formularios_entity', '_controller' => 'App\\Controller\\FormulariosController::entity'], null, null, null, false, false, null]],
@@ -59,9 +60,16 @@ return [
                         .'|ditar/([^/]++)(*:211)'
                         .'|liminar/([^/]++)(*:235)'
                     .')'
-                    .'|productos/categoria/([^/]++)(*:272)'
+                    .'|productos/(?'
+                        .'|categoria/([^/]++)(*:275)'
+                        .'|e(?'
+                            .'|ditar/([^/]++)(*:301)'
+                            .'|liminar/([^/]++)(*:325)'
+                        .')'
+                        .'|fotos/([^/]++)(*:348)'
+                    .')'
                 .')'
-                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:324)'
+                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:401)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -74,8 +82,11 @@ return [
         159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         211 => [[['_route' => 'doctrine_categorias_editar', '_controller' => 'App\\Controller\\DoctrineController::categorias_editar'], ['id'], null, null, false, true, null]],
         235 => [[['_route' => 'doctrine_categorias_eliminar', '_controller' => 'App\\Controller\\DoctrineController::categorias_eliminar'], ['id'], null, null, false, true, null]],
-        272 => [[['_route' => 'doctrine_productos_categoria', '_controller' => 'App\\Controller\\DoctrineController::productos_categoria'], ['categoria_id'], null, null, false, true, null]],
-        324 => [
+        275 => [[['_route' => 'doctrine_productos_categoria', '_controller' => 'App\\Controller\\DoctrineController::productos_categoria'], ['categoria_id'], null, null, false, true, null]],
+        301 => [[['_route' => 'doctrine_productos_editar', '_controller' => 'App\\Controller\\DoctrineController::productos_editar'], ['id'], null, null, false, true, null]],
+        325 => [[['_route' => 'doctrine_productos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], ['id'], null, null, false, true, null]],
+        348 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
+        401 => [
             [['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

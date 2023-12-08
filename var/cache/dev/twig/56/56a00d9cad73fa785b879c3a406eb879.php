@@ -146,7 +146,7 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
     <p class=\"d-flex justify-content-end\">
         <a href=\"";
         // line 39
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_categorias_add");
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_add");
         echo "\" class=\"btn btn-success\"><i class=\"fas fa-check\"></i>Crear</a>
     </p>
 
@@ -208,16 +208,22 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
             echo twig_escape_filter($this->env, twig_slice($this->env, twig_get_attribute($this->env, $this->source, $context["dato"], "descripcion", [], "any", false, false, false, 69), 0, 100), "html", null, true);
             echo ".....</td>
                         <td style=\"text-align:center;\">
-                            <a href=\"\"><i class=\"fas fa-camera\"></i></a>
+                            <a href=\"";
+            // line 71
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_fotos", ["id" => twig_get_attribute($this->env, $this->source, $context["dato"], "id", [], "any", false, false, false, 71)]), "html", null, true);
+            echo "\"><i class=\"fas fa-camera\"></i></a>
                         </td>
                         <td style=\"text-align:center;\">
-                            <a href=\"";
-            // line 74
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_categorias_editar", ["id" => twig_get_attribute($this->env, $this->source, $context["dato"], "id", [], "any", false, false, false, 74)]), "html", null, true);
+                            ";
+            // line 75
+            echo "                            ";
+            // line 76
+            echo "                            <a href=\"";
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_editar", ["id" => twig_get_attribute($this->env, $this->source, $context["dato"], "id", [], "any", false, false, false, 76)]), "html", null, true);
             echo "\"><i class=\"fas fa-edit\"></i></a>
                             <a href=\"javascript:void(0);\" onclick=\"confirmarSweet('Realmente desea eliminar este registro?','";
-            // line 75
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_categorias_eliminar", ["id" => twig_get_attribute($this->env, $this->source, $context["dato"], "id", [], "any", false, false, false, 75)]), "html", null, true);
+            // line 77
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_productos_eliminar", ["id" => twig_get_attribute($this->env, $this->source, $context["dato"], "id", [], "any", false, false, false, 77)]), "html", null, true);
             echo "')\"><i class=\"fas fa-trash-alt\"></i></a>
                         </td>
                     </tr>
@@ -226,7 +232,7 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['dato'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 79
+        // line 81
         echo "            </tbody>
         </table>
     </div>
@@ -251,7 +257,7 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
 
     public function getDebugInfo()
     {
-        return array (  230 => 79,  220 => 75,  216 => 74,  208 => 69,  204 => 68,  200 => 67,  196 => 66,  186 => 64,  181 => 61,  178 => 60,  174 => 59,  161 => 48,  155 => 43,  149 => 39,  134 => 27,  129 => 24,  126 => 22,  116 => 18,  111 => 17,  107 => 16,  98 => 10,  94 => 9,  90 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  236 => 81,  226 => 77,  221 => 76,  219 => 75,  213 => 71,  208 => 69,  204 => 68,  200 => 67,  196 => 66,  186 => 64,  181 => 61,  178 => 60,  174 => 59,  161 => 48,  155 => 43,  149 => 39,  134 => 27,  129 => 24,  126 => 22,  116 => 18,  111 => 17,  107 => 16,  98 => 10,  94 => 9,  90 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -294,7 +300,7 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
     </div>
 
     <p class=\"d-flex justify-content-end\">
-        <a href=\"{{path('doctrine_categorias_add')}}\" class=\"btn btn-success\"><i class=\"fas fa-check\"></i>Crear</a>
+        <a href=\"{{path('doctrine_productos_add')}}\" class=\"btn btn-success\"><i class=\"fas fa-check\"></i>Crear</a>
     </p>
 
     {# Aca estoy armando la tabla para poder mostrar los datos de la BDD#}
@@ -326,11 +332,13 @@ class __TwigTemplate_ebae0d4dd7aa6457ccab452ed093c11c extends Template
                         <td>{{dato.stock}}</td>
                         <td>{{dato.descripcion|slice(0,100)}}.....</td>
                         <td style=\"text-align:center;\">
-                            <a href=\"\"><i class=\"fas fa-camera\"></i></a>
+                            <a href=\"{{path('doctrine_productos_fotos',{id:dato.id})}}\"><i class=\"fas fa-camera\"></i></a>
                         </td>
                         <td style=\"text-align:center;\">
-                            <a href=\"{{path('doctrine_categorias_editar',{id: dato.id})}}\"><i class=\"fas fa-edit\"></i></a>
-                            <a href=\"javascript:void(0);\" onclick=\"confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_categorias_eliminar',{id:dato.id})}}')\"><i class=\"fas fa-trash-alt\"></i></a>
+                            {# Esta linea la comente para poder hacer uso de la misma plantilla para la edicion de los productos#}
+                            {#<a href=\"{{path('doctrine_categorias_editar',{id: dato.id})}}\"><i class=\"fas fa-edit\"></i></a>#}
+                            <a href=\"{{path('doctrine_productos_editar',{id: dato.id})}}\"><i class=\"fas fa-edit\"></i></a>
+                            <a href=\"javascript:void(0);\" onclick=\"confirmarSweet('Realmente desea eliminar este registro?','{{path('doctrine_productos_eliminar',{id:dato.id})}}')\"><i class=\"fas fa-trash-alt\"></i></a>
                         </td>
                     </tr>
                 {% endfor%}

@@ -391,6 +391,9 @@
     <service id="App\Form\PersonaValidationType" class="App\Form\PersonaValidationType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Form\ProductoFormType" class="App\Form\ProductoFormType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Repository\CategoriaRepository" class="App\Repository\CategoriaRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -431,7 +434,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.oX.Fzlh"/>
+      <argument type="service" id=".service_locator.Kh6JARP"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1310,6 +1313,7 @@
         <argument>App\Form\PersonaEntityType</argument>
         <argument>App\Form\PersonaUploadType</argument>
         <argument>App\Form\PersonaValidationType</argument>
+        <argument>App\Form\ProductoFormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FileType</argument>
@@ -3078,7 +3082,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.oX.Fzlh"/>
+      <argument type="service" id=".service_locator.Kh6JARP"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <argument type="service" id="request_stack"/>
@@ -3556,7 +3560,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator..WbJgBR"/>
+      <argument type="service" id=".service_locator.blb1AaV"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -6698,6 +6702,8 @@
     <service id=".abstract.instanceof.App\Form\PersonaUploadType" class="App\Form\PersonaUploadType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\PersonaValidationType" class="App\Form\PersonaValidationType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\PersonaValidationType" class="App\Form\PersonaValidationType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ProductoFormType" class="App\Form\ProductoFormType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\ProductoFormType" class="App\Form\ProductoFormType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CategoriaRepository" class="App\Repository\CategoriaRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CategoriaRepository" class="App\Repository\CategoriaRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ProductoFotoRepository" class="App\Repository\ProductoFotoRepository" autowire="true" abstract="true"/>
@@ -7097,11 +7103,13 @@
         <argument key="validator" type="service_closure" id="debug.validator"/>
       </argument>
     </service>
-    <service id=".service_locator.oX.Fzlh" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Kh6JARP" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\DoctrineController::categorias_add" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\DoctrineController::categorias_editar" type="service_closure" id=".service_locator.7kObEVq"/>
+        <argument key="App\Controller\DoctrineController::productos_add" type="service_closure" id=".service_locator.7kObEVq"/>
+        <argument key="App\Controller\DoctrineController::productos_editar" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\DoctrineController::productos_paginacion" type="service_closure" id=".service_locator.ZUwwaRD"/>
         <argument key="App\Controller\FormulariosController::upload" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\FormulariosController::validacion" type="service_closure" id=".service_locator.SoIa2O7"/>
@@ -7111,6 +7119,8 @@
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Controller\DoctrineController:categorias_add" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\DoctrineController:categorias_editar" type="service_closure" id=".service_locator.7kObEVq"/>
+        <argument key="App\Controller\DoctrineController:productos_add" type="service_closure" id=".service_locator.7kObEVq"/>
+        <argument key="App\Controller\DoctrineController:productos_editar" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\DoctrineController:productos_paginacion" type="service_closure" id=".service_locator.ZUwwaRD"/>
         <argument key="App\Controller\FormulariosController:upload" type="service_closure" id=".service_locator.7kObEVq"/>
         <argument key="App\Controller\FormulariosController:validacion" type="service_closure" id=".service_locator.SoIa2O7"/>
@@ -7271,13 +7281,14 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator..WbJgBR" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.blb1AaV" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\CategoriaFormType" type="service_closure" id="App\Form\CategoriaFormType"/>
         <argument key="App\Form\PersonaEntityType" type="service_closure" id="App\Form\PersonaEntityType"/>
         <argument key="App\Form\PersonaUploadType" type="service_closure" id="App\Form\PersonaUploadType"/>
         <argument key="App\Form\PersonaValidationType" type="service_closure" id="App\Form\PersonaValidationType"/>
+        <argument key="App\Form\ProductoFormType" type="service_closure" id="App\Form\ProductoFormType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service_closure" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service_closure" id="form.type.choice"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ColorType" type="service_closure" id="form.type.color"/>
@@ -9077,7 +9088,7 @@
     <service id="Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface" alias="Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.oX.Fzlh"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.Kh6JARP"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -9099,9 +9110,9 @@
     <service id=".service_locator.h8Jkkd2" alias="messenger.retry_strategy_locator"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
     <service id=".service_locator.9PauvOG" alias=".service_locator.7kObEVq"/>
-    <service id=".service_locator.Mb9TR5R" alias=".service_locator.oX.Fzlh"/>
+    <service id=".service_locator.QteKy4C" alias=".service_locator.Kh6JARP"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
-    <service id=".service_locator.0xoYMOO" alias=".service_locator..WbJgBR"/>
+    <service id=".service_locator.Glui2fG" alias=".service_locator.blb1AaV"/>
     <service id=".service_locator.jij13qc" alias=".service_locator.PBToVFE"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.jUv.zyj" alias=".service_locator.O2p6Lk7"/>

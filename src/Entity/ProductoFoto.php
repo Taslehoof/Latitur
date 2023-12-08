@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductoFotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductoFotoRepository::class)]
 class ProductoFoto
@@ -13,7 +14,16 @@ class ProductoFoto
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100), Assert\File(
+        maxSize: "10M",
+        mimeTypes:[
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+        ],
+        mimeTypesMessage:'La foto debe ser JPG|PNG',
+        maxSizeMessage: 'La foto no debe pesar mas de 10 Megabytes'
+    )]
     private ?string $foto = null;
 
     #[ORM\ManyToOne]

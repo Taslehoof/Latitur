@@ -8,13 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Categoria;
 use App\Entity\Producto;
+use App\Entity\ProductoFoto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Form\CategoriaFormType;
+use App\Form\ProductoFormType;
 
 //paginacion
 use Knp\Component\Pager\PaginatorInterface;
+use function PHPUnit\Framework\throwException;
 
 class DoctrineController extends AbstractController
 {
@@ -131,7 +134,7 @@ class DoctrineController extends AbstractController
         $this->em->remove($entity);
         $this->em->flush();
         $this->addFlash('css','success');
-        $this->addFlash('mensaje', 'Ocurrio un error inesperado');
+        $this->addFlash('mensaje', 'Se elimino el registro exitosamente');
         return $this->redirectToRoute('doctrine_categorias');
 
     }
@@ -214,5 +217,120 @@ class DoctrineController extends AbstractController
                             ->getResult();
 
         return $this->render('doctrine/productos_fecha.html.twig', compact('datos'));
+    }
+
+    #[Route('/doctrine/productos/add', name: 'doctrine_productos_add')]
+    public function productos_add(Request $request, ValidatorInterface $validator, SluggerInterface $slugger): Response {
+
+        $entity = new Producto();
+        $form = $this->createForm(ProductoFormType::class, $entity);
+        $form-> handleRequest($request);
+        $submittedToken = $request->request->get('token');
+        if($form->isSubmitted()){
+            if($this->isCsrfTokenValid('generico',$submittedToken)){
+                $errors = $validator->validate($entity);
+                if(count($errors) > 0){
+                    return $this->render('doctrine/productos_add.html.twig',compact('form','errors'));
+                } else {
+                    $campos = $form->getData();
+                    $entity->setNombre($campos->getNombre());
+                    $entity->setSlug($slugger->slug(strtolower($campos->getNombre())));
+                    $entity->setPrecio($campos->getPrecio());
+                    $entity->setStock($campos->getStock());
+                    $entity->setDescripcion($campos->getDescripcion());
+                    $entity->setCategoria($campos->getCategoria());
+                    $entity->setFecha(new \DateTime());
+                    
+                    $this->em->persist($entity);
+                    $this->em->flush();
+                    $this->addFlash('css', 'success');
+                    $this->addFlash('mensaje', 'Se creo el registro exitosamente');
+                    return $this->redirectToRoute('doctrine_productos_add');
+                }
+
+            } else {
+                $this->addFlash('css', 'warning');
+                $this->addFlash('mensaje', 'Ocurrio un error inesperado');
+                return $this->redirectToRoute('doctrine_productos_add');
+            }
+
+        }
+
+        return $this->render('doctrine/productos_add.html.twig',['form'=>$form, 'errors'=>array()] );
+    }
+    
+    #[Route('/doctrine/productos/editar/{id}', name: 'doctrine_productos_editar')]
+    public function productos_editar(int $id,Request $request, ValidatorInterface $validator, SluggerInterface $slugger): Response {
+
+        $entity = $this->em->getRepository(Producto::class)->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Esta URL no esta disponible');
+        }
+        $form = $this->createForm(ProductoFormType::class, $entity);
+        $form-> handleRequest($request);
+        $submittedToken = $request->request->get('token');
+        if($form->isSubmitted()){
+            if($this->isCsrfTokenValid('generico',$submittedToken)){
+                $errors = $validator->validate($entity);
+                if(count($errors) > 0){
+                    return $this->render('doctrine/productos_editar.html.twig',compact('form','errors','entity'));
+                } else {
+                    $campos = $form->getData();
+                    $entity->setNombre($campos->getNombre());
+                    $entity->setSlug($slugger->slug(strtolower($campos->getNombre())));
+                    $entity->setPrecio($campos->getPrecio());
+                    $entity->setStock($campos->getStock());
+                    $entity->setDescripcion($campos->getDescripcion());
+                    $entity->setCategoria($campos->getCategoria());
+                    //$entity->setFecha(new \DateTime());
+                    
+                    //$this->em->persist($entity);
+                    $this->em->flush();
+                    $this->addFlash('css', 'success');
+                    $this->addFlash('mensaje', 'Se modifico el registro exitosamente');
+                    return $this->redirectToRoute('doctrine_productos_editar',['id'=>$id]);
+                }
+
+            } else {
+                $this->addFlash('css', 'warning');
+                $this->addFlash('mensaje', 'Ocurrio un error inesperado');
+                return $this->redirectToRoute('doctrine_productos_editar',['id'=>$id]);
+            }
+
+        }
+
+        return $this->render('doctrine/productos_editar.html.twig',['form'=>$form, 'errors'=>array(), 'entity'=>$entity] );
+    }
+    
+    #[Route('/doctrine/productos/eliminar/{id}', name: 'doctrine_productos_eliminar')]
+    public function productos_eliminar(int $id, Request $request): Response {
+    
+        //select * from categoria where id=$id;
+        $entity = $this->em->getRepository(Producto::class)->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Esta URL no esta disponible');
+        }
+        
+        $this->em->remove($entity);
+        $this->em->flush();
+        $this->addFlash('css','success');
+        $this->addFlash('mensaje', 'Se elimino el registro exitosamente');
+        return $this->redirectToRoute('doctrine_productos');
+
+    }
+    
+    //con esta funcion estoy generando la capacidad para que el Doctrine se pueda encargar de las fotos de los productos
+    #[Route('/doctrine/productos/fotos/{id}', name: 'doctrine_productos_fotos')]
+    public function productos_fotos(int $id, Request $request): Response {
+        
+        //Aca le estoy diciendo que los traiga del Repo por el ID del producto 
+        $datos = $this->em->getRepository(Producto::class)->find($id);
+            if(!$datos) {
+            throw $this->createNotFoundException('Esta URL no esta disponible');
+        }
+        
+        $fotos = $this->em->getRepository(ProductoFoto::class)->findBy(array('productos'=>$id), array('id'=>'desc'));
+        return $this->render('doctrine/productos_fotos.html.twig',['datos'=>$datos,'fotos'=>$fotos, 'errors'=>$array()]);
+
     }
 }

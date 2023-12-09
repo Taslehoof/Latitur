@@ -66,10 +66,13 @@ return [
                             .'|ditar/([^/]++)(*:301)'
                             .'|liminar/([^/]++)(*:325)'
                         .')'
-                        .'|fotos/([^/]++)(*:348)'
+                        .'|fotos/(?'
+                            .'|([^/]++)(*:351)'
+                            .'|eliminar/([^/]++)(*:376)'
+                        .')'
                     .')'
                 .')'
-                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:401)'
+                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:430)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -85,8 +88,9 @@ return [
         275 => [[['_route' => 'doctrine_productos_categoria', '_controller' => 'App\\Controller\\DoctrineController::productos_categoria'], ['categoria_id'], null, null, false, true, null]],
         301 => [[['_route' => 'doctrine_productos_editar', '_controller' => 'App\\Controller\\DoctrineController::productos_editar'], ['id'], null, null, false, true, null]],
         325 => [[['_route' => 'doctrine_productos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], ['id'], null, null, false, true, null]],
-        348 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
-        401 => [
+        351 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
+        376 => [[['_route' => 'doctrine_productos_fotos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos_eliminar'], ['id'], null, null, false, true, null]],
+        430 => [
             [['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

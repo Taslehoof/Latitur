@@ -31,6 +31,7 @@ return [
     'doctrine_productos_editar' => [['id'], ['_controller' => 'App\\Controller\\DoctrineController::productos_editar'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/doctrine/productos/editar']], [], [], []],
     'doctrine_productos_eliminar' => [['id'], ['_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/doctrine/productos/eliminar']], [], [], []],
     'doctrine_productos_fotos' => [['id'], ['_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/doctrine/productos/fotos']], [], [], []],
+    'doctrine_productos_fotos_eliminar' => [['id'], ['_controller' => 'App\\Controller\\DoctrineController::productos_fotos_eliminar'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/doctrine/productos/fotos/eliminar']], [], [], []],
     'formularios_inicio' => [[], ['_controller' => 'App\\Controller\\FormulariosController::index'], [], [['text', '/formularios']], [], [], []],
     'formularios_simple' => [[], ['_controller' => 'App\\Controller\\FormulariosController::simple'], [], [['text', '/formularios/simple']], [], [], []],
     'formularios_entity' => [[], ['_controller' => 'App\\Controller\\FormulariosController::entity'], [], [['text', '/formularios/entity']], [], [], []],

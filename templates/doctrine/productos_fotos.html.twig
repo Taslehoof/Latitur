@@ -1,0 +1,81 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Doctrine{% endblock %}
+
+{% block body %}
+    {#Con esto hago unos pequeños links debajo del navbar de la pagina para poder acceder a cualquier parte del menu #}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home_inicio') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_inicio') }}">Doctrine ORM</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('doctrine_productos') }}">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Fotos del Producto {{datos.nombre}}</li>
+        </ol>
+    </nav>
+
+    <h1>Fotos del Producto: {{datos.nombre}}</h1>
+    <hr />
+        {% if errors %}
+            <div class="alert alert-danger alert-dismissible fade show">   
+                <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif%}
+
+        {% for mensaje in app.flashes('mensaje') %}
+            <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+                {{mensaje}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+    <div class="row">
+    {# Formulario con el que cargo las fotos a la BDD #}
+        <h2>Sube una nueva foto</h2>
+            <form action="{{url('doctrine_productos_fotos', {id:datos.id})}}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="persona_entity_form_foto">
+                        Foto (JPG|PNG)
+                    </label>
+                        {{form_widget(form.foto,)}}
+                    <div>
+                        <hr />
+                        <input type="hidden" name="token" value="{{csrf_token('generico')}}" />
+                        <input type="submit"  value="Enviar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+    </div>
+    <hr />
+    <div class="row">
+    {# Armamos la tabla con la que voy a mostrar las fotos de los productos en pantalla#}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for foto in fotos %}
+                <tr>
+                    <td>
+                        <img src="{{absolute_url(asset('uploads/productos/'))}}{{foto.foto}}" width="200" height="200" />
+                    </td>
+                    <td style="text-align:center;">
+                        <a href="javascript:void(0);" onclick="confirmarSweet('Realmente desea eliminar esta foto?', '{{path('doctrine_productos_fotos_eliminar', {id:foto.id})}}')">
+                        <i class="fas fa-trash"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    </div>
+{% endblock %}

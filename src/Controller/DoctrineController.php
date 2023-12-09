@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Form\CategoriaFormType;
 use App\Form\ProductoFormType;
+use App\Form\ProductoFotoType;
 
 //paginacion
 use Knp\Component\Pager\PaginatorInterface;
@@ -321,16 +323,83 @@ class DoctrineController extends AbstractController
     
     //con esta funcion estoy generando la capacidad para que el Doctrine se pueda encargar de las fotos de los productos
     #[Route('/doctrine/productos/fotos/{id}', name: 'doctrine_productos_fotos')]
-    public function productos_fotos(int $id, Request $request): Response {
+    public function productos_fotos(int $id, Request $request, ValidatorInterface $validator): Response {
         
         //Aca le estoy diciendo que los traiga del Repo por el ID del producto 
         $datos = $this->em->getRepository(Producto::class)->find($id);
-            if(!$datos) {
+        if(!$datos) {
             throw $this->createNotFoundException('Esta URL no esta disponible');
         }
         
-        $fotos = $this->em->getRepository(ProductoFoto::class)->findBy(array('productos'=>$id), array('id'=>'desc'));
-        return $this->render('doctrine/productos_fotos.html.twig',['datos'=>$datos,'fotos'=>$fotos, 'errors'=>$array()]);
+        $fotos = $this->em->getRepository(ProductoFoto::class)->findBy(array('producto'=>$id), array('id'=>'desc'));
+        $entity = new ProductoFoto();
+        $form = $this->createForm(ProductoFotoType::class, $entity);
+        $form ->handleRequest($request);
+        $submittedToken = $request->request->get('token');
 
+        //Todo esto es para poder hacer la validacion de las imagenes que suba 
+        if($form->isSubmitted()){
+            if($this->isCsrfTokenValid('generico',$submittedToken)){
+                $errors = $validator->validate($entity);
+                if(count($errors) > 0){
+                    return $this->render('doctrine/productos_fotos.html.twig',['datos'=>$datos, 'fotos'=>$fotos, 'errors'=>$errors, 'form'=>$form]);
+                } else {
+                    $foto = $form->get('foto')->getData();
+                    if($foto){
+                       $newFilename=time().'.'.$foto->guessExtension(); 
+                        try{
+                            $foto->move(
+                                $this->getParameter('productos_directory'),$newFilename
+                            );
+
+                        } catch (FileException $e){
+                                throw new \Exception("mensaje", 'Ups ocurrio un error al intentar subir el archivo');
+                        }
+                    }                    
+                    
+                    //Aca seteo la foto a la entidad para poder persistirla en la BDD
+                    $entity->setFoto($newFilename);
+                    //en este caso tengo que pasar la entidad que pase mas arriba porque si o si la tengo que tener asociada
+                    $entity->setProducto($datos);
+
+                    $this->em->persist($entity);
+                    $this->em->flush();
+
+                    $this->addFlash('css', 'success');
+                    $this->addFlash('mensaje', 'Se modifico el registro exitosamente');
+                    return $this->redirectToRoute('doctrine_productos_fotos',['id'=>$id]);
+                }
+
+            } else {
+                $this->addFlash('css', 'warning');
+                $this->addFlash('mensaje', 'Ocurrio un error inesperado');
+                return $this->redirectToRoute('doctrine_productos_fotos',['id'=>$id]);
+            }
+
+        }
+
+        return $this->render('doctrine/productos_fotos.html.twig',['datos'=>$datos, 'fotos'=>$fotos, 'errors'=>array(), 'form'=>$form]);
+
+    }
+    
+    #[Route('/doctrine/productos/fotos/eliminar/{id}', name: 'doctrine_productos_fotos_eliminar')]
+    public function productos_fotos_eliminar(int $id, Request $request): Response {
+        
+        $entity = $this->em->getRepository(ProductoFoto::class)->findOneBy(['id'=>$id]); 
+        if(!$entity){
+            throw $this->createNotFoundException('Esta URL no esta disponible');
+        }
+        
+        //para que nos rediriga al mismo producto en el que estamos
+        $producto_id=$entity->getProducto()->getId();
+        //Elimina la imagen del servidor
+        unlink(getcwd().'/uploads/productos/'.$entity->getFoto());
+        //desvinculo la imagen de la entidad una vez ya eliminada de servidor
+        $this->em->remove($entity);
+        $this->em->flush();
+
+        $this->addFlash('css', 'warning');
+        $this->addFlash('mensaje', 'Se elimino el registro exitosamente');
+        return $this->redirectToRoute('doctrine_productos_fotos',['id'=>$id]);
     }
 }

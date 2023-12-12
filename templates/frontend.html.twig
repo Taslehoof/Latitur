@@ -47,14 +47,14 @@
                 {#<a class="p-2 link-secondary" href="{{ path('utilidades_inicio') }}">Utilidades</a>#}
                 <a class="p-2 link-secondary" href="{{ path('helper_inicio') }}">Helper</a>
                 <a class="p-2 link-secondary" href="{{ path('doctrine_inicio') }}">Doctrine</a>
-                {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class="p-2 link-secondary" href="{{ path('doctrine_inicio') }}">Doctrine</a>
                 {% endif %}
-               {# {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
+               {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
                 <a class="p-2 link-secondary" href="{{ path('acceso_login') }}">Login</a>
                 <a class="p-2 link-secondary" href="{{ path('acceso_registro') }}">Registro</a>
                 {% endif %}
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+               {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class="p-2 link-secondary" href="{{ path('restringido_inicio') }}">Restringido</a>
                 <a class="p-2 link-secondary" href="javascript:void(0);" onclick="cerrarSesion('{{path('acceso_logout')}}');">Salir</a>
                 {% endif %}

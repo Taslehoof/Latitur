@@ -1,0 +1,51 @@
+{% extends 'frontend.html.twig' %}
+
+
+{% block title %}Registro{% endblock %}
+
+{% block body %}
+<h1>Registro </h1> 
+
+    {% if errors %} 
+        <div class="alert alert-danger alert-dismissible fade show">
+            <ul>{% for error in errors %}
+                <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+    
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <div class="row">   
+        <form action="{{ url('acceso_registro' ) }}" method="post">
+            {% for message in app.flashes('mensaje') %}
+            <div class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show" role="alert">
+                {{ message }} 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+
+            <div class="form-group">   
+                <label for="user_form_nombre">Nombre</label>
+                {{ form_widget(form.nombre, {"required": false, "attr": { "placeholder": "Nombre"}}) }}
+            </div>
+            <div class="form-group">   
+                <label for="user_form_email">E-Mail</label>
+                {{ form_widget(form.email, {"required": false, "attr": {"placeholder": "E-Mail"}}) }}
+            </div>
+            <div class="form-group">   
+                <label for="user_form_password">Contraseña</label>
+                {{ form_widget(form.password, {"required": false, "attr": {"placeholder": "Contraseña" }}) }}
+            </div>
+    
+            <hr/>    
+            <input type="hidden" name="token" value="{{ csrf_token('generico') }}"/>
+            <input type="submit" value="Enviar" class="btn btn-primary" />
+        </form>
+
+    </div>
+
+
+{% endblock %}
+

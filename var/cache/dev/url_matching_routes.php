@@ -14,6 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/acceso/registro' => [[['_route' => 'acceso_registro', '_controller' => 'App\\Controller\\AccesoController::registro'], null, null, null, false, false, null]],
         '/doctrine' => [[['_route' => 'doctrine_inicio', '_controller' => 'App\\Controller\\DoctrineController::index'], null, null, null, false, false, null]],
         '/doctrine/categorias' => [[['_route' => 'doctrine_categorias', '_controller' => 'App\\Controller\\DoctrineController::categorias'], null, null, null, false, false, null]],
         '/doctrine/categorias/add' => [[['_route' => 'doctrine_categorias_add', '_controller' => 'App\\Controller\\DoctrineController::categorias_add'], null, null, null, false, false, null]],

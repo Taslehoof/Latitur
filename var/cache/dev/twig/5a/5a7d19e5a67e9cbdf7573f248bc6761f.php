@@ -137,6 +137,29 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_inicio");
         echo "\">Doctrine</a>
                 ";
+        // line 50
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
+            // line 51
+            echo "                <a class=\"p-2 link-secondary\" href=\"";
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("doctrine_inicio");
+            echo "\">Doctrine</a>
+                ";
+        }
+        // line 53
+        echo "               ";
+        if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY") == false)) {
+            // line 54
+            echo "                <a class=\"p-2 link-secondary\" href=\"";
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("acceso_login");
+            echo "\">Login</a>
+                <a class=\"p-2 link-secondary\" href=\"";
+            // line 55
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("acceso_registro");
+            echo "\">Registro</a>
+                ";
+        }
+        // line 57
+        echo "               ";
         // line 62
         echo "            </nav>
         </div>
@@ -236,7 +259,7 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  210 => 67,  192 => 7,  177 => 81,  173 => 80,  169 => 79,  165 => 78,  161 => 77,  150 => 68,  148 => 67,  141 => 62,  137 => 49,  132 => 48,  128 => 46,  124 => 45,  120 => 44,  102 => 29,  98 => 28,  83 => 16,  79 => 15,  75 => 14,  71 => 13,  64 => 9,  60 => 8,  56 => 7,  52 => 6,  45 => 1,);
+        return array (  233 => 67,  215 => 7,  200 => 81,  196 => 80,  192 => 79,  188 => 78,  184 => 77,  173 => 68,  171 => 67,  164 => 62,  162 => 57,  157 => 55,  152 => 54,  149 => 53,  143 => 51,  141 => 50,  137 => 49,  132 => 48,  128 => 46,  124 => 45,  120 => 44,  102 => 29,  98 => 28,  83 => 16,  79 => 15,  75 => 14,  71 => 13,  64 => 9,  60 => 8,  56 => 7,  52 => 6,  45 => 1,);
     }
 
     public function getSourceContext()
@@ -290,14 +313,14 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
                 {#<a class=\"p-2 link-secondary\" href=\"{{ path('utilidades_inicio') }}\">Utilidades</a>#}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('helper_inicio') }}\">Helper</a>
                 <a class=\"p-2 link-secondary\" href=\"{{ path('doctrine_inicio') }}\">Doctrine</a>
-                {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('doctrine_inicio') }}\">Doctrine</a>
                 {% endif %}
-               {# {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
+               {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('acceso_login') }}\">Login</a>
                 <a class=\"p-2 link-secondary\" href=\"{{ path('acceso_registro') }}\">Registro</a>
                 {% endif %}
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+               {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('restringido_inicio') }}\">Restringido</a>
                 <a class=\"p-2 link-secondary\" href=\"javascript:void(0);\" onclick=\"cerrarSesion('{{path('acceso_logout')}}');\">Salir</a>
                 {% endif %}

@@ -16,6 +16,7 @@ return [
     '_profiler_router' => [['token'], ['_controller' => 'web_profiler.controller.router::panelAction'], [], [['text', '/router'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
+    'acceso_registro' => [[], ['_controller' => 'App\\Controller\\AccesoController::registro'], [], [['text', '/acceso/registro']], [], [], []],
     'doctrine_inicio' => [[], ['_controller' => 'App\\Controller\\DoctrineController::index'], [], [['text', '/doctrine']], [], [], []],
     'doctrine_categorias' => [[], ['_controller' => 'App\\Controller\\DoctrineController::categorias'], [], [['text', '/doctrine/categorias']], [], [], []],
     'doctrine_categorias_add' => [[], ['_controller' => 'App\\Controller\\DoctrineController::categorias_add'], [], [['text', '/doctrine/categorias/add']], [], [], []],

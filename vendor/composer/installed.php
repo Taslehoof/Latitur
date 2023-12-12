@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '5e33f55dabe3772beb5850056388224d20ad15a5',
         'name' => '__root__',
         'dev' => true,
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '5e33f55dabe3772beb5850056388224d20ad15a5',
             'dev_requirement' => false,
         ),
         'doctrine/cache' => array(
@@ -1095,12 +1095,12 @@
             'dev_requirement' => false,
         ),
         'symfony/security-bundle' => array(
-            'pretty_version' => 'v6.3.6',
-            'version' => '6.3.6.0',
+            'pretty_version' => 'v6.3.8',
+            'version' => '6.3.8.0',
             'type' => 'symfony-bundle',
             'install_path' => __DIR__ . '/../symfony/security-bundle',
             'aliases' => array(),
-            'reference' => '0b07f3820370aba96e1633993c5c561364f88f30',
+            'reference' => '57889ebb1ac3403d550c787c4fde127261abacb6',
             'dev_requirement' => false,
         ),
         'symfony/security-core' => array(

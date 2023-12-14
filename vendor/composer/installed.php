@@ -837,12 +837,12 @@
             ),
         ),
         'symfony/http-foundation' => array(
-            'pretty_version' => 'v6.3.7',
-            'version' => '6.3.7.0',
+            'pretty_version' => 'v6.3.9',
+            'version' => '6.3.9.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/http-foundation',
             'aliases' => array(),
-            'reference' => '59d1837d5d992d16c2628cd0d6b76acf8d69b33e',
+            'reference' => '49a04fd3a21edc9ce503ab78e9f342805fefe780',
             'dev_requirement' => false,
         ),
         'symfony/http-kernel' => array(

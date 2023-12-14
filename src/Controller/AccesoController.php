@@ -16,13 +16,60 @@ use App\Form\LoginType;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\RequestStack; //composer require symfony / http-foundation | https://symfony.com/doc/current/session.html#session-idle-time-keep-alive
 
 class AccesoController extends AbstractController
 {
     
     private $em;
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em, private RequestStack $requestStack){
         $this->em=$em;
+    }
+    
+    #[Route('/acceso/login', name: 'acceso_login')]
+    public function login(Request $request, ValidatorInterface $validator, Security $security, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $entity = new Usuario();
+        $form = $this->createForm(LoginType::class, $entity);
+        $form->handleRequest($request);
+        $submittedToken = $request->request->get('token');
+        if($form->isSubmitted()){
+            if($this->isCsrfTokenValid('generico',$submittedToken)){
+                $errors = $validator->validate($entity);
+                if (count($errors) > 0){
+                    return $this->render('acceso/login.html.twig', compact('form', 'errors'));    
+                
+                } else {
+                    $campos = $form->getData();
+                    $usuario =$this->em->getRepository(Usuario::class)->findOneBy(['email'=>$campos->getEmail()]);
+                    if(!$usuario){
+                        $this->addFlash('css', 'danger');
+                        $this->addFlash('mensaje', 'Las creedenciales ingresadas no son validas');
+                        return $this->redirectToRoute('acceso_login');
+                    }
+                    if($passwordHasher->isPasswordValid($usuario,$campos->getPassword())) {
+
+                    $security->login($usuario);
+                    $session=$this->requestStack->getSession();
+                    $session->set('perfil_id','1');
+                    $session->set('perfil_nombre','Administrador');
+                    $session->set('tienda_id','7267');
+                    $session->set('tienda_nombre','tienda de la capital');
+                    return $this->redirectToRoute('restringido_inicio');
+
+                    } else {
+                        $this->addFlash('css', 'danger');
+                        $this->addFlash('mensaje', 'Las creedenciales ingresadas no son validas');
+                        return $this->redirectToRoute('acceso _login');
+                    }
+                }
+            } else {
+                $this->addFlash('css', 'warning');
+                $this->addFlash('mensaje', 'Ocurrio un error inesperado');
+                return $this->redirectToRoute('acceso _login');
+            }
+        }
+        return $this->render('acceso/login.html.twig',['form' =>$form, 'errors'=>array()]);
     }
 
 /*
@@ -78,6 +125,11 @@ class AccesoController extends AbstractController
             }
         }
         return $this->render('acceso/registro.html.twig',['form'=>$form,'errors'=>array()]);
+    }
+    
+    #[Route('/acceso/logout', name: 'acceso_logout')]
+    public function logout(): Response {
+    
     }
 
 }

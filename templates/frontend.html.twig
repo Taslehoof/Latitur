@@ -50,15 +50,16 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class="p-2 link-secondary" href="{{ path('doctrine_inicio') }}">Doctrine</a>
                 {% endif %}
-               {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
+                {# Con esto estoy asumiendo el rol y para poder mostra los enlaces en la barra o no#}
+                {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
                 <a class="p-2 link-secondary" href="{{ path('acceso_login') }}">Login</a>
                 <a class="p-2 link-secondary" href="{{ path('acceso_registro') }}">Registro</a>
                 {% endif %}
-               {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class="p-2 link-secondary" href="{{ path('restringido_inicio') }}">Restringido</a>
                 <a class="p-2 link-secondary" href="javascript:void(0);" onclick="cerrarSesion('{{path('acceso_logout')}}');">Salir</a>
                 {% endif %}
-                <a class="p-2 link-secondary" href="{{ path('pasarelas_inicio') }}">Pasarelas</a>#}
+                {#<a class="p-2 link-secondary" href="{{ path('pasarelas_inicio') }}">Pasarelas</a>#}
             </nav>
         </div>
     </div>

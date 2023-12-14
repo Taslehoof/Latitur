@@ -146,30 +146,45 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
                 ";
         }
         // line 53
-        echo "               ";
+        echo "                ";
+        // line 54
+        echo "                ";
         if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY") == false)) {
-            // line 54
+            // line 55
             echo "                <a class=\"p-2 link-secondary\" href=\"";
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("acceso_login");
             echo "\">Login</a>
                 <a class=\"p-2 link-secondary\" href=\"";
-            // line 55
+            // line 56
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("acceso_registro");
             echo "\">Registro</a>
                 ";
         }
-        // line 57
-        echo "               ";
+        // line 58
+        echo "                ";
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
+            // line 59
+            echo "                <a class=\"p-2 link-secondary\" href=\"";
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("restringido_inicio");
+            echo "\">Restringido</a>
+                <a class=\"p-2 link-secondary\" href=\"javascript:void(0);\" onclick=\"cerrarSesion('";
+            // line 60
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("acceso_logout");
+            echo "');\">Salir</a>
+                ";
+        }
         // line 62
+        echo "                ";
+        // line 63
         echo "            </nav>
         </div>
     </div>
     <main class=\"container\">
         <!--Contenido--->
             ";
-        // line 67
-        $this->displayBlock('body', $context, $blocks);
         // line 68
+        $this->displayBlock('body', $context, $blocks);
+        // line 69
         echo "        <!--//Contenido--->
     </main>
 
@@ -180,23 +195,23 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
     </footer>
 
     <script src=\"";
-        // line 77
+        // line 78
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\HttpFoundationExtension']->generateAbsoluteUrl($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/jquery-2.0.0.min.js")), "html", null, true);
         echo "\"></script>
     <script src=\"";
-        // line 78
+        // line 79
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\HttpFoundationExtension']->generateAbsoluteUrl($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/bootstrap.js")), "html", null, true);
         echo "\"></script>
     <script src=\"";
-        // line 79
+        // line 80
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\HttpFoundationExtension']->generateAbsoluteUrl($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/jquery.alerts.min.js")), "html", null, true);
         echo "\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 80
+        // line 81
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\HttpFoundationExtension']->generateAbsoluteUrl($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/sweetalert2.js")), "html", null, true);
         echo "\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 81
+        // line 82
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\HttpFoundationExtension']->generateAbsoluteUrl($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/funciones.js")), "html", null, true);
         echo "\"></script>
 
@@ -229,7 +244,7 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
 
     }
 
-    // line 67
+    // line 68
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -259,7 +274,7 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  233 => 67,  215 => 7,  200 => 81,  196 => 80,  192 => 79,  188 => 78,  184 => 77,  173 => 68,  171 => 67,  164 => 62,  162 => 57,  157 => 55,  152 => 54,  149 => 53,  143 => 51,  141 => 50,  137 => 49,  132 => 48,  128 => 46,  124 => 45,  120 => 44,  102 => 29,  98 => 28,  83 => 16,  79 => 15,  75 => 14,  71 => 13,  64 => 9,  60 => 8,  56 => 7,  52 => 6,  45 => 1,);
+        return array (  248 => 68,  230 => 7,  215 => 82,  211 => 81,  207 => 80,  203 => 79,  199 => 78,  188 => 69,  186 => 68,  179 => 63,  177 => 62,  172 => 60,  167 => 59,  164 => 58,  159 => 56,  154 => 55,  151 => 54,  149 => 53,  143 => 51,  141 => 50,  137 => 49,  132 => 48,  128 => 46,  124 => 45,  120 => 44,  102 => 29,  98 => 28,  83 => 16,  79 => 15,  75 => 14,  71 => 13,  64 => 9,  60 => 8,  56 => 7,  52 => 6,  45 => 1,);
     }
 
     public function getSourceContext()
@@ -316,15 +331,16 @@ class __TwigTemplate_5147735c19767fe0874b84eededb16d9 extends Template
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('doctrine_inicio') }}\">Doctrine</a>
                 {% endif %}
-               {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
+                {# Con esto estoy asumiendo el rol y para poder mostra los enlaces en la barra o no#}
+                {% if is_granted('IS_AUTHENTICATED_FULLY')==false %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('acceso_login') }}\">Login</a>
                 <a class=\"p-2 link-secondary\" href=\"{{ path('acceso_registro') }}\">Registro</a>
                 {% endif %}
-               {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class=\"p-2 link-secondary\" href=\"{{ path('restringido_inicio') }}\">Restringido</a>
                 <a class=\"p-2 link-secondary\" href=\"javascript:void(0);\" onclick=\"cerrarSesion('{{path('acceso_logout')}}');\">Salir</a>
                 {% endif %}
-                <a class=\"p-2 link-secondary\" href=\"{{ path('pasarelas_inicio') }}\">Pasarelas</a>#}
+                {#<a class=\"p-2 link-secondary\" href=\"{{ path('pasarelas_inicio') }}\">Pasarelas</a>#}
             </nav>
         </div>
     </div>

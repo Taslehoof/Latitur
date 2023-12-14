@@ -19,6 +19,9 @@ security:
             form_login:
                 login_path: acceso_login
                   #  check_path: acceso_login
+            logout:
+              path: acceso_logout
+              target: acceso_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -32,6 +35,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
          - { path: ^/doctrine, roles: ROLE_USER }
+         - { path: ^/restringido, roles: ROLE_USER }
 
 when@test:
     security:

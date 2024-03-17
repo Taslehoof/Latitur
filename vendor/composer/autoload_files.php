@@ -20,4 +20,5 @@ return array(
     'f598d06aa772fa33d905e87be6398fb1' => $vendorDir . '/symfony/polyfill-intl-idn/bootstrap.php',
     '662a729f963d39afe703c9d9b7ab4a8c' => $vendorDir . '/symfony/polyfill-php83/bootstrap.php',
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
+    'b46ad4fe52f4d1899a2951c7e6ea56b0' => $vendorDir . '/voku/portable-utf8/bootstrap.php',
 );

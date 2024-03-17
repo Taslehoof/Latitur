@@ -41,6 +41,15 @@ return [
         '/template/excepcion' => [[['_route' => 'template_exception', '_controller' => 'App\\Controller\\TemplateController::excepcion'], null, null, null, false, false, null]],
         '/template/trabajo' => [[['_route' => 'template_trabajo', '_controller' => 'App\\Controller\\TemplateController::trabajo'], null, null, null, false, false, null]],
         '/template/layout' => [[['_route' => 'template_layout', '_controller' => 'App\\Controller\\TemplateController::layout'], null, null, null, false, false, null]],
+        '/utilidades' => [[['_route' => 'utilidades_inicio', '_controller' => 'App\\Controller\\UtilidadesController::index'], null, null, null, false, false, null]],
+        '/utilidades/enviar-email' => [[['_route' => 'utilidades_email', '_controller' => 'App\\Controller\\UtilidadesController::enviar_email'], null, null, null, false, false, null]],
+        '/utilidades/api-rest' => [[['_route' => 'utilidades_api_rest', '_controller' => 'App\\Controller\\UtilidadesController::api_rest'], null, null, null, false, false, null]],
+        '/utilidades/api-rest/crear' => [[['_route' => 'utilidades_api_rest_crear', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_crear'], null, null, null, false, false, null]],
+        '/utilidades/filesystem' => [[['_route' => 'utilidades_filesystem', '_controller' => 'App\\Controller\\UtilidadesController::filesystem'], null, null, null, false, false, null]],
+        '/utilidades/pdf' => [[['_route' => 'utilidades_pdf', '_controller' => 'App\\Controller\\UtilidadesController::pdf'], null, null, null, false, false, null]],
+        '/utilidades/pdf/generar' => [[['_route' => 'utilidades_pdf_generar', '_controller' => 'App\\Controller\\UtilidadesController::pdf_generar'], null, null, null, false, false, null]],
+        '/utilidades/excel' => [[['_route' => 'utilidades_excel', '_controller' => 'App\\Controller\\UtilidadesController::excel'], null, null, null, false, false, null]],
+        '/utilidades/excel/generar' => [[['_route' => 'utilidades_excel_generar', '_controller' => 'App\\Controller\\UtilidadesController::excel_generar'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -77,6 +86,10 @@ return [
                     .')'
                 .')'
                 .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:430)'
+                .'|/utilidades/api\\-rest/(?'
+                    .'|editar/([^/]++)(*:478)'
+                    .'|delete/([^/]++)(*:501)'
+                .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -94,8 +107,10 @@ return [
         325 => [[['_route' => 'doctrine_productos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], ['id'], null, null, false, true, null]],
         351 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
         376 => [[['_route' => 'doctrine_productos_fotos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos_eliminar'], ['id'], null, null, false, true, null]],
-        430 => [
-            [['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null],
+        430 => [[['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null]],
+        478 => [[['_route' => 'utilidades_api_rest_editar', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_editar'], ['id'], null, null, false, true, null]],
+        501 => [
+            [['_route' => 'utilidades_api_rest_delete', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_delete'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

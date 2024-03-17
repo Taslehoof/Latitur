@@ -154,7 +154,7 @@ class DoctrineController extends AbstractController
         
         $datos = $this->em->getRepository(Producto::class)->findBy(array(),array('id'=>'desc'));
         //con esto estoy trayendo los datos del Productos y los pagino en una pagina con un maximo de dos objetos
-        $pagination = $paginator->paginate($datos, $request->query->getInt('page',1),2);
+        $pagination = $paginator->paginate($datos, $request->query->getInt('page',1));
         $pagination->setParam('parametro','valor');
         $pagination->setUsedRoute('doctrine_productos_paginacion');
         return $this->render('doctrine/productos_paginacion.html.twig', compact('datos','pagination'));

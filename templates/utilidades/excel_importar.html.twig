@@ -1,0 +1,54 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Utilidades{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('utilidades_inicio')}}">Utilidades</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Importar Excel</li>
+    </ol>
+</nav>
+
+<h1>Impotar Excel</h1>
+
+<div class="row">
+    <form action="{{ url('utilidades_excel_importar') }}" method="post" enctype="multipart/orm-data">
+        <div class="form-group">
+            <label for="persona_entity_form_foto">
+                Archivo
+            </label>
+            {{ form_widget(form.archivo, ) }}
+        </div>
+        <hr />
+        <input type="hidden" name="token" value="{{ csrf_token('generico') }}" />
+        <input type="submit" value="Enviar" class="btn btn-primary" />
+    </form>
+</div>
+{% if largo>=1 %}
+    <hr />
+    <h3>Hay {{largo}} registros subidos</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_array %}
+            {% if loop.index0>=1 %}
+            <tr>
+                <td>{{data[0]}}</td>
+                <td>{{data[1]}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endif %}
+
+{% endblock %}
+

@@ -36,6 +36,9 @@ return [
         '/home' => [[['_route' => 'home_inicio', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/home/saludo' => [[['_route' => 'home_saludo', '_controller' => 'App\\Controller\\HomeController::saludo'], null, null, null, false, false, null]],
         '/home/despedida' => [[['_route' => 'home_despedida', '_controller' => 'App\\Controller\\HomeController::despedida'], null, null, null, false, false, null]],
+        '/pasarelas' => [[['_route' => 'pasarelas_inicio', '_controller' => 'App\\Controller\\PasarelasController::index'], null, null, null, false, false, null]],
+        '/pasarelas/webpay' => [[['_route' => 'pasarelas_webpay', '_controller' => 'App\\Controller\\PasarelasController::webpay'], null, null, null, false, false, null]],
+        '/pasarelas/webpay/respuesta' => [[['_route' => 'pasarelas_webpay_respuesta', '_controller' => 'App\\Controller\\PasarelasController::webpay_respuesta'], null, null, null, false, false, null]],
         '/restringido' => [[['_route' => 'restringido_inicio', '_controller' => 'App\\Controller\\RestringidoController::index'], null, null, null, false, false, null]],
         '/template' => [[['_route' => 'template_inicio', '_controller' => 'App\\Controller\\TemplateController::index'], null, null, null, false, false, null]],
         '/template/excepcion' => [[['_route' => 'template_exception', '_controller' => 'App\\Controller\\TemplateController::excepcion'], null, null, null, false, false, null]],
@@ -50,66 +53,71 @@ return [
         '/utilidades/pdf/generar' => [[['_route' => 'utilidades_pdf_generar', '_controller' => 'App\\Controller\\UtilidadesController::pdf_generar'], null, null, null, false, false, null]],
         '/utilidades/excel' => [[['_route' => 'utilidades_excel', '_controller' => 'App\\Controller\\UtilidadesController::excel'], null, null, null, false, false, null]],
         '/utilidades/excel/generar' => [[['_route' => 'utilidades_excel_generar', '_controller' => 'App\\Controller\\UtilidadesController::excel_generar'], null, null, null, false, false, null]],
+        '/utilidades/excel/importar' => [[['_route' => 'utilidades_excel_importar', '_controller' => 'App\\Controller\\UtilidadesController::excel_importar'], null, null, null, false, false, null]],
+        '/utilidades/qr' => [[['_route' => 'utilidades_qr', '_controller' => 'App\\Controller\\UtilidadesController::qr'], null, null, null, false, false, null]],
+        '/utilidades/mapa' => [[['_route' => 'utilidades_mapa', '_controller' => 'App\\Controller\\UtilidadesController::mapa'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
+                .'|/qr\\-code/([^/]++)/([\\w\\W]+)(*:35)'
                 .'|/_(?'
-                    .'|error/(\\d+)(?:\\.([^/]++))?(*:38)'
-                    .'|wdt/([^/]++)(*:57)'
+                    .'|error/(\\d+)(?:\\.([^/]++))?(*:73)'
+                    .'|wdt/([^/]++)(*:92)'
                     .'|profiler/([^/]++)(?'
                         .'|/(?'
-                            .'|search/results(*:102)'
-                            .'|router(*:116)'
+                            .'|search/results(*:137)'
+                            .'|router(*:151)'
                             .'|exception(?'
-                                .'|(*:136)'
-                                .'|\\.css(*:149)'
+                                .'|(*:171)'
+                                .'|\\.css(*:184)'
                             .')'
                         .')'
-                        .'|(*:159)'
+                        .'|(*:194)'
                     .')'
                 .')'
                 .'|/doctrine/(?'
                     .'|categorias/e(?'
-                        .'|ditar/([^/]++)(*:211)'
-                        .'|liminar/([^/]++)(*:235)'
+                        .'|ditar/([^/]++)(*:246)'
+                        .'|liminar/([^/]++)(*:270)'
                     .')'
                     .'|productos/(?'
-                        .'|categoria/([^/]++)(*:275)'
+                        .'|categoria/([^/]++)(*:310)'
                         .'|e(?'
-                            .'|ditar/([^/]++)(*:301)'
-                            .'|liminar/([^/]++)(*:325)'
+                            .'|ditar/([^/]++)(*:336)'
+                            .'|liminar/([^/]++)(*:360)'
                         .')'
                         .'|fotos/(?'
-                            .'|([^/]++)(*:351)'
-                            .'|eliminar/([^/]++)(*:376)'
+                            .'|([^/]++)(*:386)'
+                            .'|eliminar/([^/]++)(*:411)'
                         .')'
                     .')'
                 .')'
-                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:430)'
+                .'|/template/parametros/([^/]++)(?:/([^/]++))?(*:465)'
                 .'|/utilidades/api\\-rest/(?'
-                    .'|editar/([^/]++)(*:478)'
-                    .'|delete/([^/]++)(*:501)'
+                    .'|editar/([^/]++)(*:513)'
+                    .'|delete/([^/]++)(*:536)'
                 .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
-        38 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
-        57 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
-        102 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
-        116 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
-        136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
-        149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        211 => [[['_route' => 'doctrine_categorias_editar', '_controller' => 'App\\Controller\\DoctrineController::categorias_editar'], ['id'], null, null, false, true, null]],
-        235 => [[['_route' => 'doctrine_categorias_eliminar', '_controller' => 'App\\Controller\\DoctrineController::categorias_eliminar'], ['id'], null, null, false, true, null]],
-        275 => [[['_route' => 'doctrine_productos_categoria', '_controller' => 'App\\Controller\\DoctrineController::productos_categoria'], ['categoria_id'], null, null, false, true, null]],
-        301 => [[['_route' => 'doctrine_productos_editar', '_controller' => 'App\\Controller\\DoctrineController::productos_editar'], ['id'], null, null, false, true, null]],
-        325 => [[['_route' => 'doctrine_productos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], ['id'], null, null, false, true, null]],
-        351 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
-        376 => [[['_route' => 'doctrine_productos_fotos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos_eliminar'], ['id'], null, null, false, true, null]],
-        430 => [[['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null]],
-        478 => [[['_route' => 'utilidades_api_rest_editar', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_editar'], ['id'], null, null, false, true, null]],
-        501 => [
+        35 => [[['_route' => 'qr_code_generate', '_controller' => 'Endroid\\QrCodeBundle\\Controller\\GenerateController'], ['builder', 'data'], null, null, false, true, null]],
+        73 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
+        92 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
+        137 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
+        151 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
+        171 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
+        184 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
+        194 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        246 => [[['_route' => 'doctrine_categorias_editar', '_controller' => 'App\\Controller\\DoctrineController::categorias_editar'], ['id'], null, null, false, true, null]],
+        270 => [[['_route' => 'doctrine_categorias_eliminar', '_controller' => 'App\\Controller\\DoctrineController::categorias_eliminar'], ['id'], null, null, false, true, null]],
+        310 => [[['_route' => 'doctrine_productos_categoria', '_controller' => 'App\\Controller\\DoctrineController::productos_categoria'], ['categoria_id'], null, null, false, true, null]],
+        336 => [[['_route' => 'doctrine_productos_editar', '_controller' => 'App\\Controller\\DoctrineController::productos_editar'], ['id'], null, null, false, true, null]],
+        360 => [[['_route' => 'doctrine_productos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_eliminar'], ['id'], null, null, false, true, null]],
+        386 => [[['_route' => 'doctrine_productos_fotos', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos'], ['id'], null, null, false, true, null]],
+        411 => [[['_route' => 'doctrine_productos_fotos_eliminar', '_controller' => 'App\\Controller\\DoctrineController::productos_fotos_eliminar'], ['id'], null, null, false, true, null]],
+        465 => [[['_route' => 'template_parametros', 'slug' => 'algo', '_controller' => 'App\\Controller\\TemplateController::parametros'], ['id', 'slug'], null, null, false, true, null]],
+        513 => [[['_route' => 'utilidades_api_rest_editar', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_editar'], ['id'], null, null, false, true, null]],
+        536 => [
             [['_route' => 'utilidades_api_rest_delete', '_controller' => 'App\\Controller\\UtilidadesController::api_rest_delete'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

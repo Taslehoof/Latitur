@@ -1,0 +1,30 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Pasarelas de pago{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('pasarelas_inicio')}}">Pasarelas</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Webpay respuesta</li>
+    </ol>vci
+</nav>
+<h1>Webpay respuesta</h1>  
+
+    <ul>
+        <li>VCI: <span>{{content.vci}}</span></li>
+        <li>amount: <span>{{content.amount}}</span></li>
+        <li>status: <span>{{content.status}}</span></li>
+        <li>buy_order: <span>{{content.buy_order}}</span></li>
+        <li>session_id: <span>{{content.session_id}}</span></li>
+        <li>card_detail: <span>{{content.card_detail}}</span></li>
+        <li>accounting_date: <span>{{content.accounting_date}}</span></li>
+        <li>transaction_date: <span>{{content.transaction_date}}</span></li>
+        <li>authorization_code: <span>{{content.authorization_code}}</span></li>
+        <li>payment_type_code: <span>{{content.payment_type_code}}</span></li>
+        <li>response_code: <span>{{content.response_code}}</span></li>
+        <li>installments_number: <span>{{content.installments_number}}</span></li>
+    </ul>
+
+{% endblock %}

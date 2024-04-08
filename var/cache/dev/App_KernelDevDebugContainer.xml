@@ -20,6 +20,7 @@
       <parameter key="MonologBundle">Symfony\Bundle\MonologBundle\MonologBundle</parameter>
       <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
       <parameter key="KnpPaginatorBundle">Knp\Bundle\PaginatorBundle\KnpPaginatorBundle</parameter>
+      <parameter key="EndroidQrCodeBundle">Endroid\QrCodeBundle\EndroidQrCodeBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
@@ -65,6 +66,10 @@
       <parameter key="KnpPaginatorBundle" type="collection">
         <parameter key="path">/var/www/html/latitur/vendor/knplabs/knp-paginator-bundle</parameter>
         <parameter key="namespace">Knp\Bundle\PaginatorBundle</parameter>
+      </parameter>
+      <parameter key="EndroidQrCodeBundle" type="collection">
+        <parameter key="path">/var/www/html/latitur/vendor/endroid/qr-code-bundle/src</parameter>
+        <parameter key="namespace">Endroid\QrCodeBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
@@ -383,6 +388,14 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\HomeController"/>
       </call>
     </service>
+    <service id="App\Controller\PasarelasController" class="App\Controller\PasarelasController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id=".debug.http_client"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\PasarelasController"/>
+      </call>
+    </service>
     <service id="App\Controller\RestringidoController" class="App\Controller\RestringidoController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -414,6 +427,9 @@
       <tag name="form.type"/>
     </service>
     <service id="App\Form\CategoriaFormType" class="App\Form\CategoriaFormType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\ExcelImportarType" class="App\Form\ExcelImportarType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\LoginType" class="App\Form\LoginType" autowire="true" autoconfigure="true">
@@ -1358,6 +1374,7 @@
       <argument type="collection">
         <argument>App\Form\CategoriaApiType</argument>
         <argument>App\Form\CategoriaFormType</argument>
+        <argument>App\Form\ExcelImportarType</argument>
         <argument>App\Form\LoginType</argument>
         <argument>App\Form\PersonaEntityType</argument>
         <argument>App\Form\PersonaUploadType</argument>
@@ -2193,6 +2210,7 @@
           <argument>/var/www/html/latitur/vendor/symfony/security-bundle/translations</argument>
           <argument>/var/www/html/latitur/vendor/symfony/monolog-bundle/translations</argument>
           <argument>/var/www/html/latitur/vendor/symfony/maker-bundle/src/translations</argument>
+          <argument>/var/www/html/latitur/vendor/endroid/qr-code-bundle/src/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2211,6 +2229,7 @@
             <argument>vendor/symfony/security-bundle/translations</argument>
             <argument>vendor/symfony/monolog-bundle/translations</argument>
             <argument>vendor/symfony/maker-bundle/src/translations</argument>
+            <argument>vendor/endroid/qr-code-bundle/src/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -3624,7 +3643,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.dedagCr"/>
+      <argument type="service" id=".service_locator.Nk6b0KR"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -5468,6 +5487,9 @@
       <call method="addExtension">
         <argument type="service" id="knp_paginator.twig.extension.pagination"/>
       </call>
+      <call method="addExtension">
+        <argument type="service" id="Endroid\QrCodeBundle\Twig\QrCodeExtension"/>
+      </call>
       <call method="addGlobal">
         <argument>app</argument>
         <argument type="service" id="twig.app_variable"/>
@@ -5680,7 +5702,7 @@
       <argument>,</argument>
     </service>
     <service id="twig.runtime_loader" class="Twig\RuntimeLoader\ContainerRuntimeLoader">
-      <argument type="service" id=".service_locator.YmHjcFj"/>
+      <argument type="service" id=".service_locator.IQsnvCN"/>
     </service>
     <service id="twig.error_renderer.html" class="Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer">
       <argument type="service" id="twig"/>
@@ -6871,6 +6893,88 @@
       <tag name="twig.runtime"/>
       <argument type="service" id="knp_paginator.helper.processor"/>
     </service>
+    <service id="Endroid\QrCodeBundle\Controller\GenerateController" class="Endroid\QrCodeBundle\Controller\GenerateController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <argument type="service" id="Endroid\QrCode\Builder\BuilderRegistry"/>
+    </service>
+    <service id="Endroid\QrCode\Writer\BinaryWriter" class="Endroid\QrCode\Writer\BinaryWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\DebugWriter" class="Endroid\QrCode\Writer\DebugWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\EpsWriter" class="Endroid\QrCode\Writer\EpsWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\GifWriter" class="Endroid\QrCode\Writer\GifWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\PdfWriter" class="Endroid\QrCode\Writer\PdfWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\PngWriter" class="Endroid\QrCode\Writer\PngWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\SvgWriter" class="Endroid\QrCode\Writer\SvgWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\WebPWriter" class="Endroid\QrCode\Writer\WebPWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Builder\Builder" class="Endroid\QrCode\Builder\Builder" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Builder\BuilderRegistry" class="Endroid\QrCode\Builder\BuilderRegistry" autowire="true" autoconfigure="true">
+      <call method="addBuilder">
+        <argument>default</argument>
+        <argument type="service">
+          <service class="Endroid\QrCode\Builder\Builder" public="true" autowire="true">
+            <call method="writer">
+              <argument type="service" id="Endroid\QrCode\Writer\PngWriter"/>
+            </call>
+            <call method="size">
+              <argument>300</argument>
+            </call>
+            <call method="margin">
+              <argument>10</argument>
+            </call>
+            <call method="encoding">
+              <argument type="service">
+                <service class="Endroid\QrCode\Encoding\Encoding">
+                  <argument>UTF-8</argument>
+                </service>
+              </argument>
+            </call>
+            <call method="errorCorrectionLevel">
+              <argument type="constant">Endroid\QrCode\ErrorCorrectionLevel::Low</argument>
+            </call>
+            <call method="roundBlockSizeMode">
+              <argument type="constant">Endroid\QrCode\RoundBlockSizeMode::Margin</argument>
+            </call>
+            <call method="validateResult">
+              <argument>false</argument>
+            </call>
+          </service>
+        </argument>
+      </call>
+    </service>
+    <service id="Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" autoconfigure="true">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" autoconfigure="true">
+      <tag name="twig.runtime"/>
+      <argument type="service" id="Endroid\QrCode\Builder\BuilderRegistry"/>
+      <argument type="service" id="router.default"/>
+    </service>
+    <service id="endroid_qr_code.default_builder" class="Endroid\QrCode\Builder\Builder" public="true" autowire="true">
+      <call method="writer">
+        <argument type="service" id="Endroid\QrCode\Writer\PngWriter"/>
+      </call>
+      <call method="size">
+        <argument>300</argument>
+      </call>
+      <call method="margin">
+        <argument>10</argument>
+      </call>
+      <call method="encoding">
+        <argument type="service">
+          <service class="Endroid\QrCode\Encoding\Encoding">
+            <argument>UTF-8</argument>
+          </service>
+        </argument>
+      </call>
+      <call method="errorCorrectionLevel">
+        <argument type="constant">Endroid\QrCode\ErrorCorrectionLevel::Low</argument>
+      </call>
+      <call method="roundBlockSizeMode">
+        <argument type="constant">Endroid\QrCode\RoundBlockSizeMode::Margin</argument>
+      </call>
+      <call method="validateResult">
+        <argument>false</argument>
+      </call>
+    </service>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AccesoController" class="App\Controller\AccesoController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AccesoController" class="App\Controller\AccesoController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\AccesoController" class="App\Controller\AccesoController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -6886,6 +6990,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\PasarelasController" class="App\Controller\PasarelasController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\PasarelasController" class="App\Controller\PasarelasController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\PasarelasController" class="App\Controller\PasarelasController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RestringidoController" class="App\Controller\RestringidoController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RestringidoController" class="App\Controller\RestringidoController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\RestringidoController" class="App\Controller\RestringidoController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -6901,6 +7008,8 @@
     <service id=".abstract.instanceof.App\Form\CategoriaApiType" class="App\Form\CategoriaApiType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CategoriaFormType" class="App\Form\CategoriaFormType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\CategoriaFormType" class="App\Form\CategoriaFormType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ExcelImportarType" class="App\Form\ExcelImportarType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\ExcelImportarType" class="App\Form\ExcelImportarType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\LoginType" class="App\Form\LoginType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\LoginType" class="App\Form\LoginType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\PersonaEntityType" class="App\Form\PersonaEntityType" autowire="true" abstract="true"/>
@@ -6923,6 +7032,10 @@
     <service id=".abstract.instanceof.App\Repository\ProductoRepository" class="App\Repository\ProductoRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UsuarioRepository" class="App\Repository\UsuarioRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\UsuarioRepository" class="App\Repository\UsuarioRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Twig\Extension\ExtensionInterface.0.Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Twig\Extension\RuntimeExtensionInterface.0.Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.7nzbL4K" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7523,11 +7636,12 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.dedagCr" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Nk6b0KR" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\CategoriaApiType" type="service_closure" id="App\Form\CategoriaApiType"/>
         <argument key="App\Form\CategoriaFormType" type="service_closure" id="App\Form\CategoriaFormType"/>
+        <argument key="App\Form\ExcelImportarType" type="service_closure" id="App\Form\ExcelImportarType"/>
         <argument key="App\Form\LoginType" type="service_closure" id="App\Form\LoginType"/>
         <argument key="App\Form\PersonaEntityType" type="service_closure" id="App\Form\PersonaEntityType"/>
         <argument key="App\Form\PersonaUploadType" type="service_closure" id="App\Form\PersonaUploadType"/>
@@ -8042,6 +8156,12 @@
     <service id=".service_locator.O2p6Lk7.App\Controller\HomeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\HomeController"/>
       <argument>App\Controller\HomeController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\PasarelasController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\PasarelasController"/>
+      <argument>App\Controller\PasarelasController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -9216,7 +9336,7 @@
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
-    <service id=".service_locator.YmHjcFj" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.IQsnvCN" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Symfony\Bridge\Twig\Extension\CsrfRuntime" type="service_closure" id="twig.runtime.security_csrf"/>
@@ -9224,6 +9344,7 @@
         <argument key="Symfony\Bridge\Twig\Extension\SerializerRuntime" type="service_closure" id="twig.runtime.serializer"/>
         <argument key="Symfony\Component\Form\FormRenderer" type="service_closure" id="twig.form.renderer"/>
         <argument key="Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationRuntime" type="service_closure" id="Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationRuntime"/>
+        <argument key="Endroid\QrCodeBundle\Twig\QrCodeRuntime" type="service_closure" id="Endroid\QrCodeBundle\Twig\QrCodeRuntime"/>
       </argument>
     </service>
     <service id="App\Kernel" alias="kernel" public="true"/>
@@ -9376,6 +9497,9 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="Knp\Component\Pager\PaginatorInterface" alias="knp_paginator"/>
     <service id="Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface" alias="Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess"/>
+    <service id="Endroid\QrCode\Builder\BuilderInterface" alias="Endroid\QrCode\Builder\Builder"/>
+    <service id="Endroid\QrCode\Builder\BuilderRegistryInterface" alias="Endroid\QrCode\Builder\BuilderRegistry"/>
+    <service id="Endroid\QrCode\Builder\BuilderInterface $defaultQrCodeBuilder" alias="endroid_qr_code.default_builder"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
     <service id="argument_resolver.controller_locator" alias=".service_locator.cxvgkTN"/>
@@ -9404,7 +9528,7 @@
     <service id=".service_locator.9PauvOG" alias=".service_locator.7kObEVq"/>
     <service id=".service_locator.cGnaZij" alias=".service_locator.cxvgkTN"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
-    <service id=".service_locator.DHfdOr6" alias=".service_locator.dedagCr"/>
+    <service id=".service_locator.c2Z1Orr" alias=".service_locator.Nk6b0KR"/>
     <service id=".service_locator.jij13qc" alias=".service_locator.PBToVFE"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.jUv.zyj" alias=".service_locator.O2p6Lk7"/>

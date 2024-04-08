@@ -117,6 +117,18 @@ class __TwigTemplate_df33e24661bf78fe4ef4a02a67cbb089 extends Template
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("utilidades_excel");
         echo "\">Crear Excel</a>
     </li>
+    <li>
+        <a href=\"";
+        // line 24
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("utilidades_excel_importar");
+        echo "\">Importar Excel</a>
+    </li>
+    <li>
+        <a href=\"";
+        // line 27
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("utilidades_qr");
+        echo "\">Generar QR</a>
+    </li>
 </ul>
 ";
         
@@ -139,7 +151,7 @@ class __TwigTemplate_df33e24661bf78fe4ef4a02a67cbb089 extends Template
 
     public function getDebugInfo()
     {
-        return array (  117 => 21,  111 => 18,  105 => 15,  99 => 12,  93 => 9,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  129 => 27,  123 => 24,  117 => 21,  111 => 18,  105 => 15,  99 => 12,  93 => 9,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -165,6 +177,12 @@ class __TwigTemplate_df33e24661bf78fe4ef4a02a67cbb089 extends Template
     </li>
     <li>
         <a href=\"{{path('utilidades_excel')}}\">Crear Excel</a>
+    </li>
+    <li>
+        <a href=\"{{path('utilidades_excel_importar')}}\">Importar Excel</a>
+    </li>
+    <li>
+        <a href=\"{{path('utilidades_qr')}}\">Generar QR</a>
     </li>
 </ul>
 {% endblock %}

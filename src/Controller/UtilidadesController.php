@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,23 @@ use Symfony\Component\Filesystem\Path;
 
 //pdf
 use Dompdf\Dompdf;
+
+//excel
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use App\Form\ExcelImportarType;//para hacer el formulario de importacion
+
+//QR
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Label\Font\NotoSans;
+
 
 class UtilidadesController extends AbstractController
 {
@@ -229,7 +248,138 @@ class UtilidadesController extends AbstractController
     
     #[Route('/utilidades/excel/generar', name: 'utilidades_excel_generar')]
     public function excel_generar(): Response {
+        
+        $helper = new Sample();
+        // Create new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()
+                    ->setCreator('Sergio Conti')
+                    ->setLastModifiedBy('Tamila.cl')
+                    ->setTitle('Documento generado desde Symfony')
+                    ->setSubject('Office 2007 XLSX Test Document')
+                    ->setDescription('Excel creado con PHP')
+                    ->setKeywords('office 2007 openxml php')
+                    ->setCategory('Test result file');
+
+        //generar las hojas y el documento
+        $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A1','ID')
+                    ->setCellValue('B1','Nombre');
+        
+        //Esto es para agregarle datos de forma dinamica desde una bd o de donde sea
+        
+        $paises=array(
+            array("Nombre"=>"Argentina","id"=>1),
+            array("Nombre"=>"Perú","id"=>2),
+            array("Nombre"=>"México","id"=>3),
+            array("Nombre"=>"España","id"=>4),
+            array("Nombre"=>"Venezuela","id"=>5),
+            array("Nombre"=>"Brasil","id"=>6)
+
+        );
+
+        $i=2;
+        foreach($paises as $pais){
+            $spreadsheet->getActiveSheet()
+                        ->setCellValue('A'.$i, $pais['id'])
+                        ->setCellValue('B'.$i, $pais['Nombre']);
+            $i++;
+
+        }
+        
+        //Rename worksheet
+        $spreadsheet->getActiveSheet()->setTitle('Hoja 1');
+        //Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
+        //Redirect output to a client's web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="reporte_'.time().'.xlsx"');
+        header('Cache-Control: max-age=0');
+        //If you're servin to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        $writer = IOFactory::createWriter($spreadsheet,'Xlsx');
+        $writer->save('php://output');
+        exit;
 
     }
     
+    #[Route('/utilidades/excel/importar', name: 'utilidades_excel_importar')]
+    public function excel_importar(Request $request): Response {
+        
+        $form = $this->createForm(ExcelImportarType::class, null);
+        $form->handleRequest($request);
+        $submittedToken = $request->request->get('token');
+        if($form->isSubmitted()){
+        
+            if($this->isCsrfTokenValid('generico', $submittedToken)){
+                $archivo = $form->get('archivo')->getData();
+                if ($archivo){
+                    $newFilename=time().'.'.$archivo->guessExtension();
+                    try{
+                        $archivo->move(
+                            $this->getParameter('excel_directory'),
+                            $newFilename
+                        );
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(getcwd()."/uploads/excel/".$newFilename);
+                    //obtenemos todas las filas
+                    $spreadsheet = $spreadsheet->getActiveSheet();
+                    //se toman las filas y se ponen en un arreglo
+                    $data_array = $spreadsheet->toArray();
+                    //borrar el achivo del servidor
+                    unlink(getcwd()."/uploads/excel".$newFilename);
+                    //Opcionalmente carlos datos en una vista para mostrarlos, eventualmente podría guardalos en una BDD
+                    return $this->render('utilidades/excel_importar.html.twig', ['form'=>$form,'data_array'=>$data_array, 'largo'=>sizeof($data_array)]);
+                    } catch (FileException $e) {
+                        throw new \Exception("mensaje", 'Ups ocurrio un error al intentar subri el archivo'); 
+                    }
+                }
+
+            } else {
+
+            }
+        
+        }
+        
+        return $this->render('utilidades/excel_importar.html.twig', ['form'=>$form,'data_array'=>array(), 'largo'=>0]);
+
+    }
+    
+    #[Route('/utilidades/qr', name: 'utilidades_qr')]
+    public function qr(): Response {
+        
+        $writer = new PngWriter();
+        $qrCode = QrCode::create('https://www.sergioconti.com')
+                ->setEncoding(new Encoding('UTF-8'))
+                ->setSize(120)
+                ->setMargin(0)
+                ->setForegroundColor(new Color(0,0,0))
+                ->setBackgroundColor(new Color(255,255,255));
+        $logo = Logo::create('Imagenes/logo.png')
+                ->setResizeToWidth(60);
+        $label = Label::create('')->setFont(new NotoSans(8));
+        $qrCodes = [];
+        $qrCodes['img'] = $writer->write($qrCode,$logo)->getDataUri();
+        
+        $qrCodes['simple']=$writer->write($qrCode,null,$label->setText('Simple'))->getDataUri();
+        
+        $qrCode->setForegroundColor(new Color(255,0,0));
+        $qrCodes['changeColor'] = $writer->write($qrCode,null,$label->setText('Color Rojo'))->getDataUri(); 
+
+        $qrCode->setForegroundColor(new Color(0,0,0))->setBackgroundColor(new Color(255,0,0));
+        $qrCodes['changeBgColor'] = $writer->write($qrCode,null,$label->setText('Fondo Rojo'))->getDataUri(); 
+
+        $qrCode->setSize(200)->setForegroundColor(new Color(0,0,0))->setBackgroundColor(new Color(255,255,255));
+        $qrCodes['withImage'] = $writer->write($qrCode,null,$label->setText('Logo')->setFont(new NotoSans(20)))->getDataUri(); 
+
+        return $this->render('utilidades/qr.html.twig',$qrCodes);
+
+    }
+    
+    #[Route('/utilidades/mapa', name: 'utilidades_mapa')]
+    public function mapa(): Response {
+
+        return $this->render('utilidades/mapa.html.twig');
+
+    }
 }

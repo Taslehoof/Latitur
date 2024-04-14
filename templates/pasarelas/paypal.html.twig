@@ -1,0 +1,26 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Pasarelas{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('pasarelas_inicio')}}">Pasarelas</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Paypal</li>
+    </ol>
+</nav>
+<h1>Paypal</h1>  
+
+    <ul>
+        <li><strong>Poducto</strong>: Mesa de computador</li>
+        <li><strong>Valor</strong>: $10</li>
+        <li><strong>Cantidad</strong>: 1</li>
+        <li><strong>Orden de Compra</strong>: orde_{{entity.getId()}}</li>
+        <li><strong>URL</strong>:{{token}} </li>
+        <li><strong>TOKEN</strong>:{{content['links'][1]['href']}} </li>
+    </ul>
+    <a href="{{content['links'][1]['href']}} class="btn btn-warning"><i class="fab fa-paypal"></i> Pagar</a>
+
+{% endblock %}
+

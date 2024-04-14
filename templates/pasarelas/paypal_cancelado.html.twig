@@ -1,0 +1,18 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Pasarelas de pago{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('pasarelas_inicio')}}">Pasarelas</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Paypal cancelado</li>
+    </ol>
+</nav>
+<h1>Paypal cancelado</h1>  
+<div class="alert alert-warning">
+    La transaccion <strong>{{id}}</strong> ha sido cancelada
+</div>
+{% endblock %}
+

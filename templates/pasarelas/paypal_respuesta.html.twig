@@ -1,0 +1,26 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Pasarelas de pago{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{path('home_inicio')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{path('pasarelas_inicio')}}">Pasarelas</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Paypal respuesta</li>
+    </ol>
+</nav>
+<h1>Paypal respuesta</h1>  
+{% if estado=='ok' %}
+<div class="alert alert-success">
+    Tu paso se gestiono exitosamente con el numero de <strong>{{id}}</strong>
+</div>
+{% endif %}
+
+{% if estado=='error' %}
+<div class="alert alert-danger">
+    La transaccion <strong>{{id}}</strong> ya esta caducada
+</div>
+{% endif %}
+{% endblock %}
+

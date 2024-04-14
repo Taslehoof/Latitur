@@ -91,7 +91,10 @@ class __TwigTemplate_6f21cb5e3cee07eee7f6658929b05842 extends Template
         // line 8
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("pasarelas_webpay");
         echo " \">Webpay</a></li>
-        <li><a href=\" \">Paypal</a></li>
+        <li><a href=\"";
+        // line 9
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("pasarelas_paypal");
+        echo "\">Paypal</a></li>
     </ul>
 ";
         
@@ -114,7 +117,7 @@ class __TwigTemplate_6f21cb5e3cee07eee7f6658929b05842 extends Template
 
     public function getDebugInfo()
     {
-        return array (  92 => 8,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  96 => 9,  92 => 8,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -127,7 +130,7 @@ class __TwigTemplate_6f21cb5e3cee07eee7f6658929b05842 extends Template
 <h1>Pasarelas de pago</h1>  
     <ul>
         <li><a href=\"{{path('pasarelas_webpay')}} \">Webpay</a></li>
-        <li><a href=\" \">Paypal</a></li>
+        <li><a href=\"{{path('pasarelas_paypal')}}\">Paypal</a></li>
     </ul>
 {% endblock %}
 ", "pasarelas/index.html.twig", "/var/www/html/latitur/templates/pasarelas/index.html.twig");
